@@ -2,12 +2,11 @@
 
 ## Desarrollo
 
-**Descargar este repositorio**
+**Descargar este repositorio**  
 `git clone https://github.com/piedratijerapapel/www.git`
 
-**Iniciar servidor local**
+**Iniciar servidor local**  
 `php -S localhost:3000 system/router.php`
 
-También se puede iniciar vía NPM o Yarn
-
+También se puede iniciar vía NPM o Yarn  
 `yarn run start`
