@@ -1,0 +1,16 @@
+title: 'Piedra Tijera Papel'
+author:
+  name: Administrador
+  email: juancgonza@gmail.com
+taxonomies:
+  - category
+  - tag
+metadata:
+  description: 'Diseño gráfico en Colombia'
+summary:
+  enabled: true
+  format: short
+  size: 300
+  delimiter: '==='
+blog:
+  route: /blog
