@@ -37,22 +37,12 @@
 
 use Automad\System as System;
 
-
-// Test if updater gets called from CLI.
-if (http_response_code() || !defined('STDIN')) {
-    exit();
-}
-
-define('AUTOMAD', true);
-define('AM_BASE_DIR', dirname(dirname(dirname(__FILE__))));
+defined('AUTOMAD_CONSOLE') or die('Console only!' . PHP_EOL);
 
 // Test if updater gets called within development repo.
 if (strpos(AM_BASE_DIR, '/automad-dev') !== false) {
     exit('Can\'t run updates within the development repository!' . PHP_EOL);
 }
-
-require AM_BASE_DIR . '/automad/autoload.php'; 
-require AM_BASE_DIR . '/automad/const.php'; 
 
 echo 'Automad version ' . AM_VERSION . PHP_EOL;
 echo 'Update branch is ' . AM_UPDATE_BRANCH . PHP_EOL;
