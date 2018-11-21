@@ -6,7 +6,7 @@
 `git clone https://github.com/piedratijerapapel/www.git`
 
 **Iniciar servidor local**  
-`php -S localhost:3000 system/router.php`
+`php -S localhost:3000`
 
 También se puede iniciar vía NPM o Yarn  
 `yarn run start`

@@ -1,0 +1,21 @@
+title: Inicio
+
+-
+
+checkboxHideInMenu: on
+
+-
+
+text: Piedra Tijera Papel es un proyecto....
+
+-
+
+checkboxShowAllPagesInPagelist: on
+
+-
+
+date: 2017-06-28 12:00:00
+
+-
+
+theme: ptp/papel

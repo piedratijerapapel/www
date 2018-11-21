@@ -5,9 +5,7 @@
   "description": "Sitio web de Piedra Tijera Papel",   
   "license": "MIT",
   "scripts": {
-    "start": "php -S localhost:3000 system/router.php",
-    "update:core": "bin/gpm selfupgrade -f",
-    "update:deps": "bin/gpm update -f"
+    "start": "php -S localhost:3000"
   },
   "repository": {
     "type": "git",

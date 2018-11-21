@@ -1,75 +1,83 @@
 <IfModule mod_rewrite.c>
 
-RewriteEngine On
 
-## Begin RewriteBase
-# If you are getting 500 or 404 errors on subpages, you may have to uncomment the RewriteBase entry
-# You should change the '/' to your appropriate subfolder. For example if you have
-# your Grav install at the root of your site '/' should work, else it might be something
-# along the lines of: RewriteBase /<your_sub_folder>
-##
+# --- AUTOMAD --- #
 
+# DO NOT MODIFY!
+
+Options -Indexes
+
+# To enable Pretty URLs just keep this file in the base folder. 
+# (next to the automad folder and the index.php)
+# As long as you keep these files all togehter, you can even move 
+# the whole installation into a subfolder. It does not need to 
+# be the root folder of your site and this file does not need to 
+# be reconfigured in any case.
+
+RewriteEngine On 
+
+# Do not modify the RewriteBase, even when running automad from a subfolder.
+# The correct rewriting will be figured out automatically.
 RewriteBase /
 
-## End - RewriteBase
+# Exclude home page from rewriting
+RewriteRule ^$ - [L]
 
-## Begin - X-Forwarded-Proto
-# In some hosted or load balanced environments, SSL negotiation happens upstream.
-# In order for Grav to recognize the connection as secure, you need to uncomment
-# the following lines.
-#
-# RewriteCond %{HTTP:X-Forwarded-Proto} https
-# RewriteRule .* - [E=HTTPS:on]
-#
-## End - X-Forwarded-Proto
+# Pretty URLs:
 
-## Begin - Exploits
-# If you experience problems on your site block out the operations listed below
-# This attempts to block the most common type of exploit `attempts` to Grav
-#
-# Block out any script trying to base64_encode data within the URL.
-RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
-# Block out any script that includes a <script> tag in URL.
-RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
-# Block out any script trying to set a PHP GLOBALS variable via URL.
-RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
-# Block out any script trying to modify a _REQUEST variable via URL.
-RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
-# Return 403 Forbidden header and show the content of the root homepage
-RewriteRule .* index.php [F]
-#
-## End - Exploits
-
-## Begin - Index
-# If the requested path and file is not /index.php and the request
-# has not already been internally rewritten to the index.php script
-RewriteCond %{REQUEST_URI} !^/index\.php
-# and the requested path and file doesn't directly match a physical file
 RewriteCond %{REQUEST_FILENAME} !-f
-# and the requested path and file doesn't directly match a physical folder
 RewriteCond %{REQUEST_FILENAME} !-d
-# internally rewrite the request to the index.php script
-RewriteRule .* index.php [L]
-## End - Index
 
-## Begin - Security
-# Block all direct access for these folders
-RewriteRule ^(\.git|cache|bin|logs|backup|webserver-configs|tests)/(.*) error [F]
-# Block access to specific file types for these system folders
-RewriteRule ^(system|vendor)/(.*)\.(txt|xml|md|html|yaml|yml|php|pl|py|cgi|twig|sh|bat)$ error [F]
-# Block access to specific file types for these user folders
-RewriteRule ^(user)/(.*)\.(txt|md|yaml|yml|php|pl|py|cgi|twig|sh|bat)$ error [F]
-# Block all direct access to .md files:
-RewriteRule \.md$ error [F]
-# Block all direct access to files and folders beginning with a dot
-RewriteRule (^|/)\.(?!well-known) - [F]
-# Block access to specific files in the root folder
-RewriteRule ^(LICENSE\.txt|composer\.lock|composer\.json|\.htaccess)$ error [F]
-## End - Security
+# To keep the app portable (can be moved around without configuration),
+# the full path for the actual rewriting has to be determined, 
+# since the RewriteBase stays always '/'.
+
+# To make that possible, the following RewriteCond is a dummy condition 
+# which is always true and is only used to figure out the base url 
+# by using back-references. (http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html)
+
+# Note: The RewriteRule is checked before (!) its RewriteConds. That actually
+# makes the back-reference to (.*) available in the condition.
+
+# For example the full URL is: www.yoursite.com/page/path
+
+# '$1': 		Page path starting from your base url, taken from the ^(.*)$ 
+#			in the RewriteRule ( page/path )
+# '#':			Separator
+# '%{REQUEST_URI}':	The actual requested full URL ( www.yoursite.com/page/path )	 
+# '([^#]*)':		The string (here the value of $1) 
+#			up to the separator ( page/path )
+# '#':			Separator again
+# '(.*)':		The requested URL without the page path ( www.yoursite.com )
+# '\1$':		The string up to the separator again ( /page/path )
+RewriteCond $1#%{REQUEST_URI} ([^#]*)#(.*)\1$
+
+# Everything after the base url (virtual page path) will be redirected to 
+# the second match "%2" from the above condition: 
+# ( www.yoursite.com ) + "index.php?/" + page/path
+RewriteRule ^(.*)$ %2index.php?/$1 [QSA,L]
+
+
+# Redirect blocked files to the 404 page. 
+
+# Redirect all non-image cache files.
+RewriteCond %{REQUEST_FILENAME} !\.(jpg|gif|png)$
+RewriteCond %{REQUEST_FILENAME} cached [OR]
+
+# Redirect all .txt files.
+RewriteCond %{REQUEST_FILENAME} \.txt$ [OR] 
+
+# Redirect all subdirectories.
+RewriteCond %{REQUEST_FILENAME} -d
+
+# Reuse the method described above to keep the app portable.
+RewriteCond $1#%{REQUEST_URI} ([^#]*)#(.*)\1$
+
+# Redirect to "_" which will display the 404 page.
+RewriteRule ^(.*)$ %2index.php/_ [L]
+
+
+# --------------- #
+
 
 </IfModule>
-
-# Begin - Prevent Browsing and Set Default Resources
-Options -Indexes
-DirectoryIndex index.php index.html index.htm
-# End - Prevent Browsing and Set Default Resources
