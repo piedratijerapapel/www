@@ -2,12 +2,12 @@
 	"name": "Tutorial",
 	"description": "A collection of tutorial templates",
 	"author": "Marc Anton Dahmen",
-	"version": "1.0.4",
+	"version": "1.1.0",
 	"license": "MIT",
 	"tooltips": {
 		"date": "Set a date to show up as post or project info",
 		"email": "Your contact email address",
-		"text": "The main content of the page",
-		"textTeaser": "The content of the teaser section"
+		"textTeaser": "The content of the teaser section",
+		"textTeaserGerman": "The german translation of the textTeaser variable"
 	}
 }

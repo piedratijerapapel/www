@@ -126,14 +126,11 @@ class View {
 		$this->InPage = new GUI\InPage();
 		$Page = $Automad->Context->get();
 		
-		// Redirect page, if the defined URL variable differs from AM_REQUEST.
-		// Disable redirection for unit tests.
-		if ($Page->url && $Page->get(AM_KEY_THEME) != 'test') {
-			if ($Page->url != AM_REQUEST) {
-				$url = Resolve::absoluteUrlToRoot(Resolve::relativeUrlToBase($Page->url, $Page));
-				header('Location: ' . $url, true, 301);
-				die;
-			}
+		// Redirect page, if the defined URL variable differs from the original URL.
+		if ($Page->url != $Page->origUrl) {
+			$url = Resolve::absoluteUrlToRoot(Resolve::relativeUrlToBase($Page->url, $Page));
+			header('Location: ' . $url, true, 301);
+			die;
 		}
 		
 		$this->template = $Page->getTemplate();
@@ -231,6 +228,11 @@ class View {
 			// Query string parameter.
 			$key = substr($key, 1);
 			return htmlspecialchars(Parse::query($key));
+			
+		} elseif (strpos($key, '%') === 0) {	
+			
+			// Session variable.
+			return SessionData::get($key);
 			
 		} else {
 			
@@ -369,13 +371,21 @@ class View {
 							
 						}
 						
-						$functions[$pipe['pipeFunction']] = $parametersArray;
+						$functions[] = array(
+							'name' => $pipe['pipeFunction'],
+							'parameters' => $parametersArray
+						);
 						
 					}
 					
 					// Math.
 					if (!empty($pipe['pipeOperator'])) {
-						$functions[$pipe['pipeOperator']] = $this->processContent($pipe['pipeNumber']);
+						
+						$functions[] = array(
+							'name' => $pipe['pipeOperator'],
+							'parameters' => $this->processContent($pipe['pipeNumber'])
+						);
+						
 					}
 					
 				}

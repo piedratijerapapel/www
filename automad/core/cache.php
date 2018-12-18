@@ -84,6 +84,21 @@ class Cache {
 	
 	
 	/**
+	 *	The status of the Automad object cache.
+	 */
+	
+	private $automadObjectCachingIsEnabled = false;
+	
+	
+	/**
+	 *	In contrast to the AM_CACHE_ENABLED constant, this variable is only for 
+	 *	storing the status of the page cache, independent from the Automad object cache.
+	 */
+	
+	private $pageCachingIsEnabled = false;
+	
+	
+	/**
 	 *	The determined matching file of the cached version of the currently visited page.
 	 */
 	
@@ -98,18 +113,53 @@ class Cache {
 	
 	
 	/**
-	 *	The constructor just determines $pageCacheFile to make it available within the instance.
+	 *	The constructor checks whether caching is enabled for the current request and
+	 *	determines the $pageCacheFile to make it available within the instance.   
+	 * 	In case of any submitted data (get or post), caching will be disabled to make sure 
+	 * 	that possible modifications of the session data array will always be reflected 
+	 * 	in the cache. Note that caching of such submitted data (get or post) would possibly 
+	 * 	only update the session data array for the requesting user. All other user could therefore
+	 * 	not trigger any updates to their sessions, because the request is already cached and 
+	 * 	the template would not be parsed again.
 	 */
 	
 	public function __construct() {
 		
 		if (AM_CACHE_ENABLED) {
 			
-			Debug::log('New Instance created!');
-			
-			$this->pageCacheFile = $this->getPageCacheFilePath();
+			// Get the site's mTime.
 			$this->siteMTime = $this->getSiteMTime();
-		
+			
+			// Define boolean variable for the Automad object cache status.
+			$this->automadObjectCachingIsEnabled = true;
+			
+			// Define boolean variable for page cache status only, 
+			// independent from the Automad object cache.
+			$this->pageCachingIsEnabled = true;
+			
+			// Disable page caching for in-page edit mode.
+			if (GUI\User::get()) {
+				Debug::log('In-page edit mode! Disable page caching.');
+				$this->pageCachingIsEnabled = false;
+			}
+			
+			// Disable page caching $_GET is not empty.
+			if (!empty($_GET)) {
+				Debug::log($_GET, '$_GET is not empty! Disable page caching.');
+				$this->pageCachingIsEnabled = false;
+			}
+			
+			// Disable page caching $_POST is not empty.
+			if (!empty($_POST)) {
+				Debug::log($_POST, '$_POST is not empty! Disable page caching.');
+				$this->pageCachingIsEnabled = false;
+			}
+			
+			// Get page cache file path in case page caching is enabled.
+			if ($this->pageCachingIsEnabled) {
+				$this->pageCacheFile = $this->getPageCacheFilePath();
+			}
+			
 		} else {
 			
 			Debug::log('Caching is disabled!');
@@ -147,15 +197,7 @@ class Cache {
 
 	public function pageCacheIsApproved() {
 		
-		if (AM_CACHE_ENABLED) {
-	
-			if (GUI\User::get()) {
-				
-				// Return false and skip all other tests in case in-page edit mode is enabled.
-				Debug::log('In-page edit mode! Skipping cache!');
-				return false;
-				
-			}
+		if ($this->pageCachingIsEnabled) {
 	
 			if (file_exists($this->pageCacheFile)) {	
 					
@@ -163,7 +205,7 @@ class Cache {
 			
 				// Check if page didn't reach the cache's lifetime yet.
 				if (($cacheMTime + AM_CACHE_LIFETIME) > time()) {
-									
+						
 					// Check if page is newer than the site's mTime.
 					if ($cacheMTime > $this->siteMTime) {
 						
@@ -177,7 +219,7 @@ class Cache {
 					// the cache gets no approval. 
 					Debug::log(date('d. M Y, H:i:s', $cacheMTime), 'Page cache is deprecated - The site got modified! Page cache mTime');
 					return false;
-				
+						
 				}
 				
 				Debug::log(date('d. M Y, H:i:s', $cacheMTime), 'Page cache is deprecated - The cached page reached maximum lifetime! Page cache mTime'); 
@@ -190,7 +232,7 @@ class Cache {
 	
 		} 
 		
-		Debug::log('Caching is disabled! Not checking page cache!');
+		Debug::log('Page caching is disabled! Not checking page cache!');
 		return false;
 		
 	}
@@ -209,7 +251,7 @@ class Cache {
 
 	public function automadObjectCacheIsApproved() {
 		
-		if (AM_CACHE_ENABLED) {
+		if ($this->automadObjectCachingIsEnabled) {
 		
 			if (file_exists(AM_FILE_OBJECT_CACHE)) {
 		
@@ -241,7 +283,7 @@ class Cache {
 			
 		}
 		
-		Debug::log('Caching is disabled! Not checking Automad object!');
+		Debug::log('Automad object caching is disabled! Not checking Automad object!');
 		return false;
 		
 	}
@@ -249,9 +291,9 @@ class Cache {
 
 	/**
 	 *	Determine the corresponding file in the cache for the requested page 
-	 *	in consideration of a possible query string or submitted form data.
-	 *	To get unique cache files for all kind of data within $_GET and $_POST, 
-	 *	a hashed JSON representation of a combined array is appended to the cache file prefix 
+	 *	in consideration of a possible session data.
+	 *	To get unique cache files for all kind of data within $_SESSION['data'], 
+	 *	a hashed JSON representation of a that data array is appended to the cache file prefix 
 	 *	like "cached_{hash}.html" in case the array is not empty.
 	 *
 	 *	@return string The determined file name of the matching cached version of the visited page.
@@ -262,24 +304,15 @@ class Cache {
 		// Make sure that $currentPath is never just '/', by wrapping the string in an extra rtrim().
 		$currentPath = rtrim(AM_REQUEST, '/');
 		
-		// Create hashed string of get and post parameters.	
-		$parameters = array();
-		$parametersHash = '';
+		// Create hashed string of session data.
+		$sessionDataHash = '';
 		
-		if (!empty($_GET)) {
-			$parameters['get'] = $_GET;
+		if ($sessionData = SessionData::get()) {
+			$sessionDataHash = '_' . sha1(json_encode($sessionData));
 		}
 		
-		if (!empty($_POST)) {
-			$parameters['post'] = $_POST; 
-		}
-		
-		if ($parameters) {
-			$parametersHash = '_' . sha1(json_encode($parameters));
-		}
-		
-		Debug::log($parameters, 'Parameters (get/post)');
-		
+		Debug::log($sessionData, 'Session Data');
+	
 		// For proxies, use HTTP_X_FORWARDED_SERVER or HTTP_X_FORWARDED_HOST as server name. 
 		// The actual server name is then already part of the AM_BASE_URL.
 		// For example: https://someproxy.com/domain.com/baseurl
@@ -294,7 +327,7 @@ class Cache {
 		
 		$pageCacheFile = 	AM_BASE_DIR . AM_DIR_CACHE_PAGES . '/' . 
 							$serverName . AM_BASE_URL . $currentPath . '/' . 
-							AM_FILE_PREFIX_CACHE . $parametersHash . '.' . AM_FILE_EXT_PAGE_CACHE;
+							AM_FILE_PREFIX_CACHE . $sessionDataHash . '.' . AM_FILE_EXT_PAGE_CACHE;
 							
 		Debug::log($pageCacheFile);
 		
@@ -430,22 +463,14 @@ class Cache {
 	
 	public function writePageToCache($output) {
 		
-		if (AM_CACHE_ENABLED) {
-				
-			if (GUI\User::get()) {
-				
-				// Exit method in case in-page edit mode is enabled.
-				Debug::log('In-page edit mode! Not writing page to cache!');
-				return NULL;
-				
-			}
+		if ($this->pageCachingIsEnabled) {
 			
 			FileSystem::write($this->pageCacheFile, $output);
 			Debug::log($this->pageCacheFile, 'Page written to');
 			
 		} else {
 			
-			Debug::log('Caching is disabled! Not writing page to cache!');
+			Debug::log('Page caching is disabled! Not writing page to cache!');
 			
 		}
 		
@@ -460,7 +485,7 @@ class Cache {
 	
 	public function writeAutomadObjectToCache($Automad) {
 		
-		if (AM_CACHE_ENABLED) {
+		if ($this->automadObjectCachingIsEnabled) {
 			
 			FileSystem::write(AM_FILE_OBJECT_CACHE, serialize($Automad));
 			Debug::log(AM_FILE_OBJECT_CACHE, 'Automad object written to');
@@ -475,7 +500,7 @@ class Cache {
 			
 		} else {
 			
-			Debug::log('Caching is disabled! Not writing Automad object to cache!');
+			Debug::log('Automad object caching is disabled! Not writing Automad object to cache!');
 			
 		}	
 		
