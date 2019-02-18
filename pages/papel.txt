@@ -6,10 +6,6 @@ checkboxHideInMenu: on
 
 -
 
-checkbox_home: on
-
--
-
 text: Piedra Tijera Papel es un proyecto....
 
 -
