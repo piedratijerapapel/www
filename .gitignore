@@ -2,9 +2,9 @@
 .vscode
 
 # Automad
-packages/ptp
 config/accounts.php
-cache/
+cache/*
+!cache/.gitkeep
 !cache/README.txt
 lib/vendor
 lib/fonts
