@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>http://localhost/index.php/</loc></url>
-<url><loc>http://localhost/index.php/acerca-de</loc></url>
-<url><loc>http://localhost/index.php/filtros</loc></url>
-<url><loc>http://localhost/index.php/filtros/imagen</loc></url>
-<url><loc>http://localhost/index.php/filtros/palabra</loc></url>
-<url><loc>http://localhost/index.php/filtros/indice</loc></url>
-<url><loc>http://localhost/index.php/visualizacion</loc></url>
-<url><loc>http://localhost/index.php/contacto</loc></url>
+<url><loc>http://piedratijerapapel.test/</loc></url>
+<url><loc>http://piedratijerapapel.test/acerca-de</loc></url>
+<url><loc>http://piedratijerapapel.test/filtros</loc></url>
+<url><loc>http://piedratijerapapel.test/filtros/imagen</loc></url>
+<url><loc>http://piedratijerapapel.test/filtros/palabra</loc></url>
+<url><loc>http://piedratijerapapel.test/filtros/indice</loc></url>
+<url><loc>http://piedratijerapapel.test/visualizacion</loc></url>
+<url><loc>http://piedratijerapapel.test/contacto</loc></url>
 </urlset>
