@@ -19,3 +19,7 @@ date: 2017-06-28 12:00:00
 -
 
 theme: ptp/papel
+
+-
+
+textTeaser: una historia del diseño gráfico en Colombia

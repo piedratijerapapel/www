@@ -2,24 +2,42 @@ title: Acerca de
 
 -
 
-text: # Título 1
+text: **Piedra Tijera Papel** 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+**Piedra Tijera Papel**  es un proyecto que busca recuperar y hacer visible la historia del diseño gráfico en Colombia, a partir de  material encontrado en diferentes archivos principalmente institucionales. En una primera etapa se consultaron en los depósitos de la Biblioteca Nacional de Colombia de material impreso en la primera mitad del siglo XX (hojas sueltas, catálogos, volantes y prensa), dando cuenta de un primer rastro de este legado histórico. 
 
-##  Título 2
+La puesta en escena de este material responde a un proceso de digitalización y análisis, en el que un equipo interdisciplinario de artistas, diseñadores e historiadores determinaron la categorización que definiría los ejes para una posterior anotación del material. De este proceso resultaron dos grandes niveles de información.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+El primero está compuesto por información general asociada a los metadatos de cada elemento, donde se incluyen contenidos como los autores (ilustrador, fotógrafo, editor, editor, director etc), la ubicación y año de publicación, la ubicación geográfica del material, el nombre de la imprenta, la descripción del material y la técnica. Esta información busca describir de manera general y homogénea todos los elementos incluidos.
 
->  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
->  
+El segundo nivel obedece a tags o etiquetas con información particular de cada elemento. Estos tags incluyen palabras que describen las ilustraciones, nombres de productos y marcas, temas asociados a la publicación, elementos gráficos presentes, número de tintas utilizados, entre otros. Esta categorización tiene como función permitir  interacciones y búsquedas a través de la programación de un sistema digital/web en relación al contenido de la colección, a su vez que con colecciones ajenas a las del proyecto, posibilitando búsquedas y resultados internos y externos dentro de la plataforma. Los niveles de información propuestos interactúan con el material digitalizado y visibilizado en una plataforma. La plataforma es constituida por un repositorio de imágenes en Flickr y una interfase online que permite la interacción con dicho repositorio. Esta combinación de sistemas busca optimizar procesos de producción y reducir los tiempos en la realización del primer prototipo.
 
-### Título 3
+La interfase gráfica propuesta se plantea a partir del análisis del archivo material posteriormente digitalizado y en el que los tags cobran importancia como elementos descriptores e interactivos. Por ello, los tags o etiquetas son protagonistas dentro de diferentes visualizaciones y juegan un rol fundamental dentro de la gráfica del proyecto.
 
-Lorem ipsum dolor sit amet, *consectetur adipiscing elit, sed do eiusmod tempor incididunt* ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. **Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.**
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. [Duis aute irure dolor in reprehenderit ](http://google.com)in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+**Derechos de autor:**
 
-<a data-flickr-embed="true" data-footer="true"  href="https://www.flickr.com/photos/159445112@N07/31038872567/in/dateposted/" title="Cervecería La Violeta Blanca"><img src="https://farm5.staticflickr.com/4916/31038872567_543cd2d469_c.jpg" width="800" height="459" alt="Cervecería La Violeta Blanca"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
+Este proyecto se ha realizado con material gráfico de dominio público y utilizando licencias Creative Commons. Según la ley colombiana una obra publicada por una persona jurídica entra a hacer parte del dominio público después de 70 años de su publicación. Por este motivo, el material seleccionado para la primera fase de este proyecto corresponde a material publicado en Colombia antes del año 1948. El repositorio de estas imágenes se encuentra alojado en la cuenta de Flickr Piedratijerapapel bajo licencia Public Domain Mark o Etiqueta de Dominio Público. El código y la documentación del proceso de investigación que acompañó el desarrollo de la aplicación web se encuentra abierto en el repositorio de Github Piedratijerapapel.
+
+Esta iniciativa espera ayudar a la identificación de autores anónimos, que por falta de visibilidad de su obra y nombre han sido olvidados. Por esta razón invitamos a quienes reconozcan el trabajo de alguno de los autores presentes en esta colección a contactarnos para atribuirles los créditos correspondientes. Esta solicitud se puede realizar vía correo electrónico en: maqueta@piedratijerapapel.com
+
+Citación:
+Piedra, tijera, papel: una mirada a la historia del diseño gráfico en Colombia, Bogotá, 2019 http://www.piedratijerapapel.com/.
+
+Equipo: 
+		 	 	 					
+La Silueta: Andrés Fresneda, Juan Pablo Fajardo, Manuela Fajardo, Gerardo Barbosa
+			
+Investigación: Natalia Gutiérrez,  Juan David Anzola, Juan David Montoya 
+
+Equipo del proyecto digital : Maria José Afanador-Llach, Juan Camilo González Jiménez, Clementina Grillo
+
+Asesoría y guía en biblioteca: Camilo Páez 
+
+Con el apoyo de:
+Ministerio de Cultura
+Biblioteca Nacional
+Facultad de Artes y Humanidades, Universidad de los Andes
 
 -
 
