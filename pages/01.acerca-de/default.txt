@@ -41,4 +41,8 @@ Facultad de Artes y Humanidades, Universidad de los Andes
 
 -
 
+textTeaser: Piedra Tijera Papel  es un proyecto que busca recuperar y hacer visible la historia del diseño gráfico en Colombia, a partir de  material encontrado en diferentes archivos principalmente institucionales.
+
+-
+
 theme: ptp/papel
